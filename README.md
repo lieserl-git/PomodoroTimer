@@ -1,2 +1,2 @@
 # PomodoroTimer
-A simple pomodoro timer for your desktop
+Projeto para treinar python.
