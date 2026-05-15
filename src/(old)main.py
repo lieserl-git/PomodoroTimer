@@ -36,7 +36,7 @@ initial_frame.pack(fill="both", expand=True)
 focus_timer_label = tk.Label(timer_frame, text="25:00", font=("Helvetica", 32))
 focus_timer_label.pack(pady=20)
 
-# Frame contêiner para centralizar os botões
+
 focus_button_frame = ttk.Frame(timer_frame)
 focus_button_frame.pack(pady=(0, 20))
 
