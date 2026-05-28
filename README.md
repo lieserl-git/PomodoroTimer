@@ -5,8 +5,7 @@ Taking time to learn **Flet** and improve the visual design
 
 ### Upcoming Features
 
-| Feature |
-|---------|----------|
+| Feature 
 | Customizable Focus/Break durations | 
 | Short vs Long break options | 
 | Improved UI/visual design | 
