@@ -2,7 +2,7 @@ import flet as ft
 from timer import PomodoroTimer
 
 def main(page: ft.Page):
-    # Configurações da Janela
+    
     page.title = "Pomodoro Timer"
     page.theme_mode = ft.ThemeMode.LIGHT
     page.window.width = 300
@@ -17,7 +17,7 @@ def main(page: ft.Page):
     title_label = ft.Text("POMODORO TIMER", font_family="Comic Sans MS", size=16, weight="bold")
     
    
-    initial_content = ft.Column([
+    initial_content = ft.Column(
         ft.Container(
             content=title_label,
             alignment=ft.Alignment(0, 0), 
@@ -27,7 +27,7 @@ def main(page: ft.Page):
             content=ft.Text("Start", font_family="Comic Sans MS"),
             on_click=lambda e: start_focus_view()
         )
-    ], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER, expand=True)
+    ), 
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
 import asyncio
-
 class PomodoroTimer:
     def __init__(self,update_callback):
         self.update_callback = update_callback
