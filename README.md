@@ -24,11 +24,11 @@ Go to the **[Releases](https://github.com/lieserl-git/PomodoroTimer/releases)** 
 git clone https://github.com/lieserl-git/PomodoroTimer.git
 cd PomodoroTimer
 ```
-2. Install Dependencies
+2. Install Dependencies:
 ```bash
 pip install flet pyinstaller
 ```
-3. Build command: This command creates a standalone executable in the dist folder.
+3. Build command: This command creates a standalone executable in the dist folder
 ```bash
 pyinstaller --onefile --windowed --name "PomodoroTimer" src/main.py
 ```
