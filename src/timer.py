@@ -36,8 +36,6 @@ class PomodoroTimer:
         
         if self.remaining_seconds == 0 and self.is_running:
             self.timer_text.value = "00:00"
-            self.page.snack_bar = ft.SnackBar(ft.Text(f"Tempo {self.current_mode} esgotado!"))
-            self.page.snack_bar.open = True
             self.page.update()
             self.stop()
             
