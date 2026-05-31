@@ -4,6 +4,11 @@
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 This Pomodoro was built as a personal learning exercise to improve my Python skills and gain experience with **Flet**
 
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+  <img src="./images/focus.png" width="300">
+  <img src="./images/break.png" width="300">
+</div>
+
 ## Upcoming Features
 - Customizable Focus/Break durations
 - Short vs Long break options
