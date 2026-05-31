@@ -1,35 +1,102 @@
+import flet as ft
 import asyncio
+
 class PomodoroTimer:
-    def __init__(self,update_callback):
-        self.update_callback = update_callback
-        self.remaining = 0
-        self.active = False
-        self.task = None
+    def __init__(self, page: ft.Page, default_duration: int = 25, snooze_duration: int = 5, on_finish_callback=None):
+        self.page = page
+        self.default_duration = default_duration * 60  
+        self.snooze_duration = snooze_duration * 60    
+        
+        self.remaining_seconds = self.default_duration
+        self.is_running = False
+        self.current_mode = "pomodoro"  
+        self.timer_task = None
+        self.on_finish_callback = on_finish_callback  
+        
+        self.timer_text = ft.Text(
+            value=self._format_time(self.remaining_seconds),
+            font_family="Comic Sans MS",
+            size=50,
+            weight=ft.FontWeight.BOLD,
+            color=ft.Colors.YELLOW_800,
+        )
 
-    def start(self, seconds):
-        self.remaining = seconds
-        self.active = True
-        if self.task:
-            self.task.cancel()
-        self.taks = asyncio.create_task(self._tick_loop())
-    
-    async def _tick_loop(self):
-        while self.remaining > 0 and self.active:
+    def _format_time(self, seconds: int) -> str:
+        mins = seconds // 60
+        secs = seconds % 60
+        return f"{mins:02d}:{secs:02d}"
+
+    async def _countdown(self):
+        '''Asynchronous countdown task'''
+        while self.remaining_seconds > 0 and self.is_running:
             await asyncio.sleep(1)
-            if self.active:
-                self.remaining -= 1
-                mins, secs = divmod(self.remaining, 60)
-                self.update_callback(f"{mins:02d}:{secs:02d}")
-        if self.remaining == 0 and self.active:
-            self.active = False
-            self.update_callback("00:00")
+            self.remaining_seconds -= 1
+            self.timer_text.value = self._format_time(self.remaining_seconds)
+            self.page.update()
+        
+        if self.remaining_seconds == 0 and self.is_running:
+            self.timer_text.value = "00:00"
+            self.page.snack_bar = ft.SnackBar(ft.Text(f"Tempo {self.current_mode} esgotado!"))
+            self.page.snack_bar.open = True
+            self.page.update()
+            self.stop()
+            
+            if self.on_finish_callback:
+                self.on_finish_callback()
 
-    def pause(self):
-        self.active = False
-        if self.task:
-            self.task.cancel()
-    
-    def resume(self):
-        if not self.active and self.remaining > 0:
-            self.active = True
-            self.taks = asyncio.create_task(self._tick_loop())
+    def start(self) -> bool:
+        if not self.is_running:
+            self.is_running = True
+            self.timer_task = asyncio.create_task(self._countdown())
+            return True
+        return False
+
+    def pause(self) -> bool:
+        if self.is_running:
+            self.is_running = False
+            if self.timer_task:
+                self.timer_task.cancel()
+            return True
+        return False
+
+    def toggle(self) -> bool:
+        if self.is_running:
+            self.pause()
+            return False
+        else:
+            self.start()
+            return True
+
+    def reset(self):
+        self.stop()
+        self.current_mode = "pomodoro"
+        self.remaining_seconds = self.default_duration
+        self.timer_text.value = self._format_time(self.remaining_seconds)
+        self.page.update()
+
+    def set_snooze(self):
+        self.stop()
+        self.current_mode = "snooze"
+        self.remaining_seconds = self.snooze_duration
+        self.timer_text.value = self._format_time(self.remaining_seconds)
+        self.page.update()
+
+    def stop(self):
+        self.is_running = False
+        if self.timer_task:
+            self.timer_task.cancel()
+
+    def get_timer_text(self) -> ft.Text:
+        return self.timer_text
+
+    def get_status(self) -> bool:
+        return self.is_running
+
+    def get_mode(self) -> str:
+        return self.current_mode
+
+    def is_at_initial_time(self) -> bool:
+        if self.current_mode == "pomodoro":
+            return self.remaining_seconds == self.default_duration
+        else:
+            return self.remaining_seconds == self.snooze_duration
