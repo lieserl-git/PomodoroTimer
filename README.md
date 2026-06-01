@@ -1,7 +1,7 @@
 # Pomodoro Timer
 [![Flet](https://img.shields.io/badge/Flet-0.85.2-orange)](https://flet.dev)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-yellow)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE) <br>
 This Pomodoro was built as a personal learning exercise to improve my Python skills and gain experience with **Flet**
 
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
